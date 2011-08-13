@@ -18,7 +18,7 @@ public class amEntity extends EntityListener
     {
         if(event.getEntity() instanceof Player)
         {
-            if(plugin.pi.containsKey((Player)event.getEntity()))
+            if(plugin.isInAdminMode((Player)event.getEntity()))
             {
                 event.setCancelled(true);
                 return;
@@ -33,7 +33,7 @@ public class amEntity extends EntityListener
         {
             Player p = (Player)event.getTarget();
 
-            if(plugin.pi.containsKey(p))
+            if(plugin.isInAdminMode(p))
             {
                 event.setCancelled(true);
                 return;

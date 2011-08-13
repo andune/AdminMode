@@ -1,6 +1,6 @@
 package me.pwnage.bukkit.AdminMode;
 
-import java.util.logging.Level;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -11,7 +11,6 @@ public class amPlayer extends PlayerListener
     private AdminMode plugin;
     public amPlayer(AdminMode p)
     {
-        // TODO: Understand the PLAYER_QUIT hook and add in autorestore of items / inventory.
         plugin = p;
     }
 
@@ -19,10 +18,9 @@ public class amPlayer extends PlayerListener
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player p = event.getPlayer();
-        if(plugin.pi.containsKey(p))
+        if(plugin.isInAdminMode(p))
         {
-            plugin.resetInv(p);
-            plugin.log.log(Level.INFO, "[" + plugin.name + "] " + event.getPlayer().getName() + "'s inventory has been returned.");
+        	p.sendMessage(ChatColor.YELLOW + "You are still in admin mode!");
         }
     }
 
@@ -30,10 +28,9 @@ public class amPlayer extends PlayerListener
     public void onPlayerQuit(PlayerQuitEvent event)
     {
         Player p = event.getPlayer();
-        if(plugin.pi.containsKey(p))
+        if(plugin.isInAdminMode(p))
         {
-            plugin.resetInv(p);
-            plugin.log.log(Level.INFO, "[" + plugin.name + "] " + event.getPlayer().getName() + "'s inventory has been returned.");
+        	p.sendMessage(ChatColor.YELLOW + "You are still in admin mode!");
         }
     }
 }

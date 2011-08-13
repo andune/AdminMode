@@ -1,0 +1,10 @@
+# flags for what admin mode keeps track of and restores when toggling am on/off
+resetLoc: true
+resetHealth: true
+resetItems: true
+
+# item list used when user goes into Admin Mode.  Use data values:
+# http://www.minecraftwiki.net/wiki/Data_values
+#
+# This example is one Diamond Pickaxe (278) and 64 blocks of smooth stone (1)
+items: 278,1:64

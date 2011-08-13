@@ -1,12 +1,22 @@
 name: AdminMode
-version: 0.4.1
+version: 0.5
 main: me.pwnage.bukkit.AdminMode.AdminMode
-author: gnftoxic
+author: gnftoxic,morganm
 description: Allows operators to save their items / health so they can handle any type of player issue - simply type /adminmode to return the items.
 commands:
   adminmode:
+    aliases: am
     description: Save / Return items to your inventory.
     usage: /<command>
-  am:
-    description: Save / Return items to your inventory.
-    usage: /<command>
+
+permissions:
+  adminmode.*:
+  children:
+    adminmode.use: true
+    adminmode.reload: true
+  adminmode.use:
+    description: Allows use of /am command
+    default: op
+  adminmode.reload:
+    description: Allows use of "/am reload" command to reload the configuration
+    default: op
