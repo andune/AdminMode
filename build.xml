@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project name="AdminMode" default="build" basedir=".">
+        <property file="${basedir}/build.local.properties" />
+        <property file="${basedir}/build.properties" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib.home}">
+			<include name="**/*.jar" />
+			<include name="**/*.zip" />
+		</fileset>
+		<pathelement path="${build.home}" />
+	</path>
+
+	<target name="prepare">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.metainf}" />
+		<mkdir dir="${dist.home}" />
+
+	</target>
+
+	<target name="clean" description="Remove all generated files.">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+
+                <!-- Really should move to maven, this is a poor man's dependency resolution -->
+                <mkdir dir="lib" />
+                <get src="http://ci.bukkit.org/job/dev-CraftBukkit/Recommended/artifact/target/craftbukkit-0.0.1-SNAPSHOT.jar"
+                    dest="lib/craftbukkit.jar" verbose="false" usetimestamp="true" />
+                <get src="http://www.theyeticave.net/downloads/permissions/latest/Permissions.jar"
+                    dest="lib/permissions.jar" verbose="false" usetimestamp="true" />
+	</target>
+
+	<target name="compile" depends="prepare" description="Compile all source code">
+		<javac srcdir="${src.home}" destdir="${build.home}" >
+			<classpath refid="project.classpath" />
+		</javac>
+	</target>
+
+	<target name="build" depends="compile" description="Generates distribution jar file">
+		<copy todir="${build.home}">
+			<fileset dir="${config.home}">
+				<include name="**/*.yml"/>
+			</fileset>
+		</copy>
+
+		<jar jarfile="${jarfile}" >
+			<fileset dir="${build.home}" />
+		</jar>
+	</target>
+
+</project>
