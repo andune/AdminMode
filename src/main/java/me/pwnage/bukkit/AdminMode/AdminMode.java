@@ -107,7 +107,8 @@ public class AdminMode extends JavaPlugin
     				p.sendMessage(ChatColor.YELLOW + "Disabled Admin Mode.");
     			} else {
     				pullInv(p);
-    				p.sendMessage(ChatColor.YELLOW + "Enabled Admin Mode. Type " + ChatColor.BLUE + "/" + name + " off " + ChatColor.YELLOW + " to disable.");
+//    				p.sendMessage(ChatColor.YELLOW + "Enabled Admin Mode. Type " + ChatColor.BLUE + "/" + name + " off " + ChatColor.YELLOW + " to disable.");
+    				p.sendMessage(ChatColor.YELLOW + "Enabled Admin Mode.");
     			}
     		} else {
     			p.sendMessage(ChatColor.RED + "You do not have permission to run this command!");
@@ -143,23 +144,24 @@ public class AdminMode extends JavaPlugin
     {
     	AdminObject ao = null;
     	try {
-    		ao = AdminObject.load(p.getName());
+    		ao = new AdminObject(p.getName());
+    		ao.load();
     	}
     	catch(IOException e) {
     		e.printStackTrace();
     	}
     	
-    	if( ao == null ) {
+    	if( !ao.hasData() ) {
     		p.sendMessage("Error retrieving stored data");
     		return;
     	}
     	
-        if(config.isResetItems())
-        	p.getInventory().setContents(ao.getItems());
         if(config.isResetLoc())
         	p.teleport(ao.getLocation());
         if(config.isResetHealth())
         	p.setHealth(ao.getHealth());
+        if(config.isResetItems())
+        	p.getInventory().setContents(ao.getItems());
         
         ao.delete();	// delete the saveFile once we're fully restored
         setAdminMode(p, false);
@@ -212,4 +214,5 @@ public class AdminMode extends JavaPlugin
     }
     
     public File getJarFile() { return super.getFile(); }
+    public ClassLoader getClassLoader() { return super.getClassLoader(); }
 }

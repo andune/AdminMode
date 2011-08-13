@@ -23,7 +23,7 @@ public class Config {
     
 	private static final String CONFIG_FILE = "config.yml";
 	
-    private ItemStack[] adminStack = null;
+    private ItemStack[] adminStack;
 	private Configuration pluginConfig;
 	private File configFile;
 	
@@ -34,15 +34,14 @@ public class Config {
 	public ItemStack[] getAdminItems() {
 		if( adminStack == null )
 		{
+			adminStack = new ItemStack[36];
+			
 			String itemsString = pluginConfig.getString("items", null);
 
-			if( itemsString == null ) {
-				adminStack = new ItemStack[] {};
+			if( itemsString == null )
 				return adminStack;
-			}
 
 			String[] Items4Admins = itemsString.split(",");
-			adminStack = new ItemStack[Items4Admins.length];
 
 			for(int i=0; i < Items4Admins.length; i++)
 			{
@@ -65,6 +64,8 @@ public class Config {
 	}
 	
     public void load() {
+    	adminStack = null;
+    	
 		pluginConfig = AdminMode.getInstance().getConfiguration();
 		configFile = new File(AdminMode.getInstance().getDataFolder() + File.separator + CONFIG_FILE);
 		
